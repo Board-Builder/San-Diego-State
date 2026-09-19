@@ -315,9 +315,6 @@ create table if not exists player_aliases (
 );
 create index if not exists player_aliases_to_idx on player_aliases (to_pid);
 
--- (defined here too so this file stands on its own)
-create or replace function public.touch_updated_at() returns trigger
-language plpgsql as $$ begin new.updated_at = now(); return new; end $$;
 drop trigger if exists universe_touch on universe;
 create trigger universe_touch before update on universe
   for each row execute function public.touch_updated_at();
