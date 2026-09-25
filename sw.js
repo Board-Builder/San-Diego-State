@@ -1,5 +1,5 @@
 /* Minimal offline shell. Bump CACHE_VERSION when you deploy app changes. */
-const CACHE_VERSION = "board-san-diego-state-d7a134b4e3";
+const CACHE_VERSION = "board-san-diego-state-40a7dbdaaa";
 const SHELL = ["./", "./index.html", "./app.js", "./config.js", "./manifest.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE_VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -30,9 +30,9 @@ self.addEventListener("push", (e) => {
     body: d.body || "",
     icon: "./icon-192.png",
     badge: "./icon-192.png",
-    tag: d.tag || (d.taskId ? "task-" + d.taskId : "board"),
-    renotify: !!d.taskId,
-    data: { url: d.url || "./", taskId: d.taskId || null },
+    tag: d.tag || (d.taskId ? "task-" + d.taskId : d.tripId ? "trip-" + d.tripId : "board"),
+    renotify: !!(d.taskId || d.tripId),
+    data: { url: d.url || "./", taskId: d.taskId || null, tripId: d.tripId || null },
   };
   e.waitUntil(self.registration.showNotification(title, opts));
 });
@@ -44,10 +44,10 @@ self.addEventListener("notificationclick", (e) => {
     const target = all.find((c) => "focus" in c);
     if (target) {
       try { await target.focus(); } catch (err) { /* best effort */ }
-      target.postMessage({ type: "board:openTask", id: data.taskId });
+      target.postMessage(data.tripId ? { type: "board:openTrip", id: data.tripId } : { type: "board:openTask", id: data.taskId });
       return;
     }
     const c = await self.clients.openWindow(data.url || "./");
-    if (c && data.taskId) setTimeout(() => { try { c.postMessage({ type: "board:openTask", id: data.taskId }); } catch (err) {} }, 2500);
+    if (c && (data.taskId || data.tripId)) setTimeout(() => { try { c.postMessage(data.tripId ? { type: "board:openTrip", id: data.tripId } : { type: "board:openTask", id: data.taskId }); } catch (err) {} }, 2500);
   })());
 });
