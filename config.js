@@ -16087,6 +16087,10 @@ window.BOARD_CONFIG = {
   /* phone push: the school's VAPID PUBLIC key (safe to ship). The private
      half lives only in the `notify` Edge Function's secrets. */
   push: { publicKey: "BBKY9fY9Ojx2Lad-ODjPZMo-TXIRT-4pZ__K8CSSd-V2j64mOJ6r-SECckoqSkYPF1kjyKn3QVojYT3ubPSOQtc" },
+  /* National prospect directory (DIRECTORY-SPEC.md): the shared public-record
+     feed. Read-only static JSON; a flag per school. contribute stays false
+     until the contract carries the consent language. */
+  directory: { url: "https://board-builder.github.io/Directory", enabled: true, contribute: false },
   /* Recruiting map: the BROWSER key for Google Maps tiles — referrer-locked
      to our GitHub Pages sites and to the Maps JavaScript API only, so it is
      safe to ship. Geocoding/routes use the server key in the travel function. */
