@@ -9,7 +9,9 @@
   <link rel="icon" type="image/png" href="./icon-192.png" />
   <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <!-- a SOLID status bar: iOS 26 blurs any page content that sits under a see-through ("black-translucent") one.
+       An iPhone reads this only when the icon is added to the Home Screen — re-add the icon after changing it. -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="The Board" />
   <style>html, body { margin: 0; background: #12161D; }</style>
 </head>
